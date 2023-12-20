@@ -110,6 +110,8 @@ class Player {
   }
 
   shoot() {
+    let shootSound = new Audio('sounds/shoot.wav')
+    shootSound.play()
     const bulletOffset = 5;
     if (this.bullets.length < this.maxBullets) {
       this.bullets.push(

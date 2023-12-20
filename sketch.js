@@ -10,6 +10,7 @@ let loading = 10;
 let loadingPlus = true;
 let resumeButton;
 let upgradedShooterImage;
+let inGameSound;
 
 const NUM_DEBRIS = 5; // number of space debris
 
@@ -33,6 +34,7 @@ function setup() {
       allDebris.push(new Debris());
     }
   }
+  inGameSound = new Audio("sounds/in-game.wav");
 
   // Create the resume game button but hide it initially
   resumeButton = createButton('Resume Game');
@@ -42,6 +44,7 @@ function setup() {
 }
 
 function showGameOver() {
+
   background(0);
   gameOver = true;
   fill(255);
@@ -51,6 +54,7 @@ function showGameOver() {
 }
 
 function connectToStart() {
+
   background(100);
   fill(255);
   textSize(16);
@@ -80,6 +84,7 @@ function connectToStart() {
   text(startText2, textXpos2, textYpos + 20);
 }
 
+
 function resumeGame() {
   console.log('Resuming game, hiding resume button');
   player.resumeGame();
@@ -91,9 +96,16 @@ function resumeGame() {
 
 function draw() {
   if (gameOver) {
+
     showGameOver();
   } else if (window?.userProfile?.email) {
+    console.log("I am here again")
     if (!player.gamePaused) {
+        inGameSound.loop = true;
+        inGameSound.play();
+
+      console.log("I am also here")
+
       background(0);
       player.update();
       updateDebrisAndCheckCollisions();
@@ -105,13 +117,18 @@ function draw() {
     invaders.draw();
 
     // Check if the game needs to be paused
-    if (player.gamePaused && resumeButton.elt.style.display=== 'none') {
+    if (player.gamePaused && resumeButton.elt.style.display === 'none') {
+      console.log("I want to resume")
+       inGameSound.pause();
       console.log('Pausing game, showing resume button');
       noLoop();
       resumeButton.show();
     }
 
     if (player.lives == 0) {
+      console.log("Ahh I don die oo")
+      inGameSound.pause()
+      console.log("I also paused playing sound")
       gameOver = true;
     }
   } else {

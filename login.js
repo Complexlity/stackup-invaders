@@ -152,6 +152,7 @@ const mintNft = async function () {
     //     await grantMinterRole(userAddress);
     //   }
 
+      console.log("getting next token id")
       const TOKEN_ID = getNextTokenId(contract);
 
       const currentGasPrice = await provider.getGasPrice();
@@ -159,10 +160,11 @@ const mintNft = async function () {
         ethers.utils.parseUnits("10", "gwei")
       );
 
+    console.log("Minting now")
       const tx = await contract.mint(userAddress, TOKEN_ID, {
         gasPrice: adjustedGasPrice, // for pre-EIP-1559
       });
-
+      console.log('Awaiting transaction')
       const receipt = await tx.wait();
       console.log("NFT minted successfully!", receipt);
       let nft = document.getElementById("nft");
@@ -170,11 +172,11 @@ const mintNft = async function () {
             <div class="alert alert-success">
               NFT minted successfully! Transaction hash: ${receipt.transactionHash}
             </div>`;
-    } catch (error) {
-      console.error("Error minting the first NFT:", error);
-    }
-  } else {
-    console.log("No provider found.");
+  //   } catch (error) {
+  //     console.error("Error minting the first NFT:", error);
+  //   }
+  // } else {
+  //   console.log("No provider found.");
   }
 };
 
