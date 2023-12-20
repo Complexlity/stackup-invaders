@@ -18,6 +18,7 @@ class Player {
     this.nftShown = { 1: false, 2: false };
     this.gamePaused = false;
     this.resumeCount = 0;
+    this.gameOver = false
   }
 
   showNft(tokenId) {
@@ -76,6 +77,9 @@ class Player {
 
   pauseGame(tokenId) {
     this.gamePaused = true;
+    const audioLink = tokenId == 1 ? 'sounds/upgrade1.wav' : 'sounds/upgrade2.wav'
+    const upgradeAudio = new Audio(audioLink)
+    upgradeAudio.play()
     this.showNft(tokenId);
   }
 
@@ -110,8 +114,11 @@ class Player {
   }
 
   shoot() {
+    if(this.gamePaused || this.gameOver) return
+
     let shootSound = new Audio('sounds/shoot.wav')
     shootSound.play()
+
     const bulletOffset = 5;
     if (this.bullets.length < this.maxBullets) {
       this.bullets.push(
@@ -183,7 +190,7 @@ class Player {
 
   drawInfo() {
     fill(255);
-    let bounty_text = 'nwalozielijah@gmail.com' + ": ";
+    let bounty_text = window?.userProfile?.email + ": ";
     let bounty_text_w = textWidth(bounty_text);
     let score = text(bounty_text, 50, 25);
     push();

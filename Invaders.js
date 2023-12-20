@@ -137,6 +137,8 @@ class Invaders {
     }
 
     makeABottomAlienShoot(bottomAliens) {
+        let shootingSound = new Audio('sounds/shoot2.wav')
+        shootingSound.play()
       let shootingAlien = random(bottomAliens);
       let bullet = new AlienBullet(shootingAlien.x + 10, shootingAlien.y + 10);
       this.bullets.push(bullet);
