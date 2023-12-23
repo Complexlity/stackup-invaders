@@ -8,9 +8,11 @@ const connectPassport = async function () {
   });
   console.log(window.accounts);
   if (window.accounts) {
-    getUserInfo();
+    await getUserInfo();
   }
+
 };
+window.connectPassport = connectPassport
 
 const config = {
   baseConfig: new window.immutable.config.ImmutableConfiguration({
@@ -22,7 +24,10 @@ const client = new window.immutable.blockchainData.BlockchainData(config);
 
 const getUserInfo = async function () {
   window.userProfile = await window.passport.getUserInfo();
+
 };
+
+
 
 const passportLogout = async function () {
   let logout = await window.passport.logout();
@@ -209,5 +214,5 @@ window.addEventListener("load", function () {
   };
 
   logoutBtn.onclick = passportLogout;
-  window.passport.loginCallback();
+  // window.passport.loginCallback();
 });
