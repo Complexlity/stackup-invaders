@@ -204,15 +204,3 @@ const upgradeNft = async function () {
             </div>`;
 };
 
-window.addEventListener("load", function () {
-  const passportBtn = this.document.getElementById("btn-passport");
-  const logoutBtn = this.document.getElementById("btn-logout");
-
-  passportBtn.onclick = function () {
-    window.isconnecting = true;
-    connectPassport();
-  };
-
-  logoutBtn.onclick = passportLogout;
-  // window.passport.loginCallback();
-});

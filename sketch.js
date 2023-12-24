@@ -137,10 +137,6 @@ function draw() {
     const event = new Event('notconnected')
     document.body.dispatchEvent(event)
   }
-
-  // Update button visibility based on authentication status
-  document.getElementById('btn-passport').hidden = window?.userProfile?.email;
-  document.getElementById('btn-logout').hidden = !window?.userProfile?.email;
 }
 
 function mousePressed() {
