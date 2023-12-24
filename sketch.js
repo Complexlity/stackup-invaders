@@ -12,7 +12,13 @@ let resumeButton;
 let upgradedShooterImage;
 let inGameSound;
 let gameOverSound;
+let startButton = document.querySelector('.start-button')
+console.log(startButton)
+startButton.addEventListener('click', (e) => {
+  e.target.classList.add('hidden')
+  mousePressed()
 
+})
 
 console.log("I loaded")
 const NUM_DEBRIS = 5; // number of space debris
@@ -23,6 +29,8 @@ function preload() {
   upgradedShooterImage = loadImage('playerv2.png');
 }
 
+
+
 function setup() {
   canvasEl = document.getElementById('sketch-holder')
   canvas = createCanvas(canvasEl.offsetWidth, 400);
@@ -30,6 +38,8 @@ function setup() {
   canvas.parent('sketch-holder');
   invaders = new Invaders(alienImage, 4);
   player = new Player(shooterImage);
+  console.log({playerLivess: player.lives})
+
 
   // create the debris objects
   for (let i = 0; i < NUM_DEBRIS; i++) {
@@ -47,13 +57,14 @@ function setup() {
 }
 
 function showGameOver() {
-
+  console.log(startButton)
   background(0);
   gameOver = true;
   fill(255);
   let gameOverT = "GAME OVER! Click to continue. Your score was " + player.score;
   textSize(16);
   text(gameOverT, width / 2 - textWidth(gameOverT) / 2, height / 2);
+  startButton.classList.remove('hidden')
 }
 
 // function connectToStart() {
@@ -99,11 +110,12 @@ function resumeGame() {
 
 function draw() {
   if (gameOver) {
+    console.log(gameOver)
     if(player.gameOver) return
     player.gameOver = true
     gameOverSound.play()
-    console.log("I played from sketch")
     showGameOver();
+
   } else if (window?.userProfile?.email && window.gameIsStarted) {
     if (!player.gamePaused) {
       if(player.gameOver) player.gameOver = false
@@ -128,9 +140,11 @@ function draw() {
     }
 
     if (player.lives == 0) {
+      console.log("I will set the gameOver. Duhhh")
       inGameSound.pause()
       gameOver = true;
     }
+
   } else {
 
     if (window.gameIsNotOn) return

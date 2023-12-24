@@ -23,7 +23,7 @@
   <script src="PlayerBullet.js" type="application/javascript"></script>
   <script src="AlienBullet.js" type="application/javascript"></script>
   <script src="Debris.js" type="application/javascript"></script>
-  <script src="sketch.js" type="application/javascript"></script>
+  <script src="sketch.js" type="application/javascript" defer></script>
   </head>
   <body
   class="prose"
@@ -38,7 +38,7 @@ window.passport.loginCallback()
 @notconnected="
 console.log('user is not connected')
 window.gameIsNotOn = true
-playing=false
+ playing=false
 "
     style="background-image: url('bg.png')"
   >
@@ -47,6 +47,7 @@ playing=false
       <!-- <button
       @click="playing=!playing">Trigger Playing</button> -->
       <div
+      x-cloak
       x-show="!user"
         class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-white border-white"
         :class="loadingUser ? 'disabled text-gray-500 px-2' : ''"
@@ -88,21 +89,45 @@ playing=false
         class="py-2 text-white flex gap-4"
       >
       <p
-      class="text-white-800 font-xl text-xl  px-4 py-2 bg-purple-800 rounded-xl"
-      x-text="'vicbaleservices@gmail.com'"></p>
+      class="text-white-800 font-xl text-xl  px-4 py-2 bg-purple-800"
+      x-text="user.email"></p>
       <p
+      x-data="{
+        loggingOut: false
+      }"
       x-cloak
       x-show="user"
       @click="
+      loggingOut=true
       await window.passport.logout()
       window.userProfile=''
       user = ''
       playing = ''
       window.gameIsStarted = false
       window.gameIsNotOne = false
+      loggingOut=false
       "
-      class="cursor-pointer text-white font-xl text-xl  px-4 py-2 bg-red-600 rounded-xl"
-      >Log Out</p>
+
+      class="hover:bg-red-400 cursor-pointer text-white font-xl text-xl  px-4 py-2 bg-red-600 rounded-xl flex gap-2"
+      :class="loggingOut ? 'disabled' : ''"
+      >
+      <svg
+        x-show="loggingOut"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="mr-2 h-8 w-8 animate-spin"
+        x-cloak
+        ><path d="M21 12a9 9 0 1 1-6.219-8.56" />
+        </svg>
+      <span x-text="loggingOut ? 'Logging Out...' : 'Log Out'"></span>
+    </p>
       <p
       x-cloak
       x-show="playing"
@@ -175,29 +200,27 @@ playing=false
 x-cloak
 x-show="playing"
     class="container-fluid p-4">
-      <div class="row">
-        <h1> Welcome to StackUp Invaders</h1>
-      </div>
+
       <div class="row">
         <div class="col-6">
           <div class="row">
             <div class="alert alert-primary" role="alert">
               Press the spacebar to shoot and arrows to move in all 4 directions!
             </div>
-            <div class="card col-12 pt-2 pb-2">
+            <div class="card col-12 pt-2 pb-2 ">
               <div class="">
                 <div
                 x-cloak
                 x-show="playing"
                 id="sketch-holder">
-
                 </div>
+
               </div>
 
             </div>
 
           </div>
-          
+
 
         </div>
         <div class="col-6">
@@ -206,7 +229,13 @@ x-show="playing"
           </div>
         </div>
       </div>
+      <div class="row col-6 text-center flex justify-center my-4">
+        <button
 
+        class="start-button
+        hover:bg-green-600 text-white font-xl text-xl px-4 py-2 bg-green-800 rounded-xl hidden">
+        Start Game</button>
+      </div>
     </div>
 
     </section>
