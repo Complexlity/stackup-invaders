@@ -24,9 +24,9 @@ console.log("I loaded")
 const NUM_DEBRIS = 5; // number of space debris
 
 function preload() {
-  alienImage = loadImage("invader1.png");
-  shooterImage = loadImage('player.png');
-  upgradedShooterImage = loadImage('playerv2.png');
+  alienImage = loadImage("assets/images/invader1.png");
+  shooterImage = loadImage('assets/images/player.png');
+  upgradedShooterImage = loadImage('assets/images/playerv2.png');
 }
 
 

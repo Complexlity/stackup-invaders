@@ -11,19 +11,19 @@
     integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@imtbl/sdk@0.34.0"></script>
-    <script type="module" src="passport.js"></script>
-    <script type="module" src="login.js"></script>
+    <script type="module" src="assets/js/passport.js"></script>
+    <script type="module" src="assets/js/login.js"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
     <script src="libs/p5.min.js"></script>
     <script src="libs/p5.dom.min.js"></script>
-    <script src="Alien.js" type="application/javascript"></script>
-    <script src="Invaders.js" type="application/javascript"></script>
-  <script src="Player.js" type="application/javascript"></script>
-  <script src="Bullet.js" type="application/javascript"></script>
-  <script src="PlayerBullet.js" type="application/javascript"></script>
-  <script src="AlienBullet.js" type="application/javascript"></script>
-  <script src="Debris.js" type="application/javascript"></script>
-  <script src="sketch.js" type="application/javascript" defer></script>
+    <script src="assets/js/Alien.js" type="application/javascript"></script>
+    <script src="assets/js/Invaders.js" type="application/javascript"></script>
+  <script src="assets/js/Player.js" type="application/javascript"></script>
+  <script src="assets/js/Bullet.js" type="application/javascript"></script>
+  <script src="assets/js/PlayerBullet.js" type="application/javascript"></script>
+  <script src="assets/js/AlienBullet.js" type="application/javascript"></script>
+  <script src="assets/js/Debris.js" type="application/javascript"></script>
+  <script src="assets/js/sketch.js" type="application/javascript" defer></script>
   </head>
   <body
   class="prose"
@@ -40,7 +40,7 @@ console.log('user is not connected')
 window.gameIsNotOn = true
  playing=false
 "
-    style="background-image: url('bg.png')"
+    style="background-image: url('assets/images/bg.png')"
   >
     <header class="flex items-center justify-between px-4 py-2 text-white">
       <h1 class="text-2xl font-bold">Game Channel</h1>
@@ -154,7 +154,7 @@ window.gameIsNotOn = true
           </div>
           <div class="rounded-md w-4/5 lg:w-1/2">
             <img
-              src="hero.webp"
+              src="assets/images/hero.webp"
               alt="Game Channel Image"
               class="w-full h-full object-cover rounded-md"
               width="500"

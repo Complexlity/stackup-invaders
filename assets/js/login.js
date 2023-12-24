@@ -1,4 +1,4 @@
-import { ethers, getDefaultProvider } from "./libs/ethers-5.6.2.esm.min.js";
+import { ethers, getDefaultProvider } from "../../libs/ethers-5.6.2.esm.min.js";
 
 window.provider = window.passport.connectEvm();
 
