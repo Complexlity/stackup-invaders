@@ -13,6 +13,8 @@ let upgradedShooterImage;
 let inGameSound;
 let gameOverSound;
 
+
+console.log("I loaded")
 const NUM_DEBRIS = 5; // number of space debris
 
 function preload() {
@@ -54,36 +56,36 @@ function showGameOver() {
   text(gameOverT, width / 2 - textWidth(gameOverT) / 2, height / 2);
 }
 
-function connectToStart() {
+// function connectToStart() {
 
-  background(100);
-  fill(255);
-  textSize(16);
-  let startText1 = "Game will start after successful authentication";
-  let startText2 = "Click on Connect passport";
-  let textXpos1 = width / 2 - textWidth(startText1) / 2;
-  let textXpos2 = width / 2 - textWidth(startText2) / 2;
-  let textYpos = height / 2;
+//   background(100);
+//   fill(255);
+//   textSize(16);
+//   let startText1 = "Game will start after successful authentication";
+//   let startText2 = "Click on Connect passport";
+//   let textXpos1 = width / 2 - textWidth(startText1) / 2;
+//   let textXpos2 = width / 2 - textWidth(startText2) / 2;
+//   let textYpos = height / 2;
 
-  if (window.isconnecting) {
-    startText1 = "Connecting ...";
-    textXpos1 = width / 2 - textWidth(startText1) / 2;
-    if (loadingPlus === true && loading == 100) {
-      loadingPlus = false;
-    } else if (loading == 10 && loadingPlus === false) {
-      loadingPlus = true;
-    }
-    if (loadingPlus) {
-      loading++;
-    } else {
-      loading--;
-    }
-    fill(loading + 150);
-  }
+//   if (window.isconnecting) {
+//     startText1 = "Connecting ...";
+//     textXpos1 = width / 2 - textWidth(startText1) / 2;
+//     if (loadingPlus === true && loading == 100) {
+//       loadingPlus = false;
+//     } else if (loading == 10 && loadingPlus === false) {
+//       loadingPlus = true;
+//     }
+//     if (loadingPlus) {
+//       loading++;
+//     } else {
+//       loading--;
+//     }
+//     fill(loading + 150);
+//   }
 
-  text(startText1, textXpos1, textYpos);
-  text(startText2, textXpos2, textYpos + 20);
-}
+//   text(startText1, textXpos1, textYpos);
+//   text(startText2, textXpos2, textYpos + 20);
+// }
 
 
 function resumeGame() {
@@ -102,7 +104,7 @@ function draw() {
     gameOverSound.play()
     console.log("I played from sketch")
     showGameOver();
-  } else if (window?.userProfile?.email) {
+  } else if (window?.userProfile?.email && window.gameIsStarted) {
     if (!player.gamePaused) {
       if(player.gameOver) player.gameOver = false
         inGameSound.loop = true;
@@ -130,7 +132,10 @@ function draw() {
       gameOver = true;
     }
   } else {
-    connectToStart();
+
+    if (window.gameIsNotOn) return
+    const event = new Event('notconnected')
+    document.body.dispatchEvent(event)
   }
 
   // Update button visibility based on authentication status

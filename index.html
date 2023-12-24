@@ -4,35 +4,55 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <style>
+      [x-cloak] { display: none !important; }
+    </style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@imtbl/sdk@0.34.0"></script>
     <script type="module" src="passport.js"></script>
     <script type="module" src="login.js"></script>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="libs/p5.min.js"></script>
+    <script src="libs/p5.dom.min.js"></script>
+    <script src="Alien.js" type="application/javascript"></script>
+    <script src="Invaders.js" type="application/javascript"></script>
+  <script src="Player.js" type="application/javascript"></script>
+  <script src="Bullet.js" type="application/javascript"></script>
+  <script src="PlayerBullet.js" type="application/javascript"></script>
+  <script src="AlienBullet.js" type="application/javascript"></script>
+  <script src="Debris.js" type="application/javascript"></script>
+  <script src="sketch.js" type="application/javascript"></script>
   </head>
   <body
-    class="prose"
+  class="prose"
     x-data='{
     user: "",
-    loadingUser: false
+    loadingUser: false,
+    playing: false
   }'
     x-init="
 window.passport.loginCallback()
 "
+@notconnected="
+console.log('user is not connected')
+window.gameIsNotOn = true
+playing=false
+"
     style="background-image: url('bg.png')"
   >
-    <!--
-// v0 by Vercel.
-// https://v0.dev/t/Yhxfz4RFdmR
--->
     <header class="flex items-center justify-between px-4 py-2 text-white">
       <h1 class="text-2xl font-bold">Game Channel</h1>
+      <!-- <button
+      @click="playing=!playing">Trigger Playing</button> -->
       <div
       x-show="!user"
         class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 text-white border-white"
         :class="loadingUser ? 'disabled text-gray-500 px-2' : ''"
       >
         <svg
+        x-show="loadingUser"
         xmlns="http://www.w3.org/2000/svg"
         width="24"
         height="24"
@@ -43,32 +63,58 @@ window.passport.loginCallback()
         stroke-linecap="round"
         stroke-linejoin="round"
         class="mr-2 h-8 w-8 animate-spin"
-        :class="loadingUser ? 'block' : 'hidden'"
+        x-cloak
         >
 
         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
         </svg>
         <button
+        x-cloak
           x-show="!user"
           @click="
         loadingUser = true
         await connectPassport()
         user = window.userProfile
         loadingUser = false
+
         "
           :class="loadingUser ? 'disabled' : ''"
           x-text="loadingUser ? 'Connecting...' : 'Connect Wallet'"
         >Connect Wallet</button>
       </div>
+      <div
+      x-cloak
+      x-show="user"
+        class="py-2 text-white flex gap-4"
+      >
       <p
-        x-text="JSON.stringify(user)"
-        class="py-2 text-white"
-        :class="user ? '' : 'hidden'"
-      ></p>
+      class="text-white-800 font-xl text-xl  px-4 py-2 bg-purple-800 rounded-xl"
+      x-text="'vicbaleservices@gmail.com'"></p>
+      <p
+      x-cloak
+      x-show="user"
+      @click="
+      await window.passport.logout()
+      window.userProfile=''
+      user = ''
+      playing = ''
+      window.gameIsStarted = false
+      window.gameIsNotOne = false
+      "
+      class="cursor-pointer text-white font-xl text-xl  px-4 py-2 bg-red-600 rounded-xl"
+      >Log Out</p>
+      <p
+      x-cloak
+      x-show="playing"
+      class="text-white font-xl text-xl  px-4 py-2 bg-purple-800 rounded-xl"
+      >Score: <span x-text="window.score"></span></p>
+    </div>
     </header>
 
     <section
-      class="w-full max-w-[150ch] mx-auto py-4 md:py-24 lg:py-32 text-white grid items-center gap-8"
+    x-show="!playing"
+    x-cloak
+      class="h-[calc(100vh-40px)] w-full max-w-[150ch] mx-auto py-4 text-white grid items-center gap-8"
     >
       <div class="container px-4 md:px-6">
         <div
@@ -102,12 +148,13 @@ window.passport.loginCallback()
           ></div>
           <button
             @click="
-        console.log({user})
-        "
-            x-init="
-        console.log('I will login callback')
-        window.passport.loginCallback()
-        console.log('I have logged in the call back')
+        if(!user){
+          alert('Please connect your wallet first');
+        }
+        else {
+          playing=true
+          window.gameIsStarted = true
+        }
         "
             href="#"
             title="Get quote now"
@@ -119,7 +166,56 @@ window.passport.loginCallback()
         </div>
       </div>
     </section>
+    <section
+    x.cloak
+    x.show="playing"
+    >
+
+<div
+x-cloak
+x-show="playing"
+    class="container-fluid p-4">
+      <div class="row">
+        <h1> Welcome to StackUp Invaders</h1>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="row">
+            <div class="alert alert-primary" role="alert">
+              Press the spacebar to shoot and arrows to move in all 4 directions!
+            </div>
+            <div class="card col-12 pt-2 pb-2">
+              <div class="">
+                <div
+                x-cloak
+                x-show="playing"
+                id="sketch-holder">
+
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="row">
+            <div id="actions" class="mt-3">
+              <button id="btn-passport" class="btn btn-primary" hidden>Connect passport</button>
+              <button id="btn-logout" class="btn btn-secondary" hidden>Logout</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-6">
+          <div id="nft">
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    </section>
   </body>
-  <!-- <script type="module" src="passport.js"></script>
-  <script type="module" src="login.js"></script> -->
+
+
 </html>
