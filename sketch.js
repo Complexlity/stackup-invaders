@@ -155,6 +155,7 @@ function draw() {
 
 function mousePressed() {
   if (gameOver === true) {
+    startButton.classList.add('hidden')
     gameOver = false;
     setup();
   }

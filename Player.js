@@ -190,9 +190,8 @@ class Player {
 
   drawInfo() {
     fill(255);
-    let bounty_text = window?.userProfile?.email + ": ";
+    let bounty_text =  "Score : ";
     let bounty_text_w = textWidth(bounty_text);
-    let score = text(bounty_text, 50, 25);
     push();
     fill(100, 255, 100);
     text(this.score, bounty_text_w + 50, 25);
