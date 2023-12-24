@@ -24,16 +24,8 @@ const client = new window.immutable.blockchainData.BlockchainData(config);
 
 const getUserInfo = async function () {
   window.userProfile = await window.passport.getUserInfo();
-
 };
 
-
-
-const passportLogout = async function () {
-  let logout = await window.passport.logout();
-  console.log(logout, "logout");
-  window.userProfile = {};
-};
 
 const PRIVATE_KEY =
   "051cc222a0f1997d54e41bcca1e522f85c89e6b5474b94a0313c13f8b0165372";
@@ -148,27 +140,23 @@ const mintNft = async function () {
       signer
     );
 
-    // try {
-    //   const minterRole = await contract.MINTER_ROLE();
-    //   const hasMinterRole = await contract.hasRole(minterRole, userAddress);
-
-    //   if (!hasMinterRole) {
-    //     console.log("Account doesnt have permissions to mint.");
-    //     await grantMinterRole(userAddress);
-    //   }
-
       console.log("getting next token id")
-      const TOKEN_ID = getNextTokenId(contract);
+      const TOKEN_ID = await getNextTokenId(contract);
+      console.log({TOKEN_ID})
+      // const currentGasPrice = await provider.getGasPrice();
+      // const adjustedGasPrice = currentGasPrice.add(
+      //   ethers.utils.parseUnits("10", "gwei")
+      // );
 
-      const currentGasPrice = await provider.getGasPrice();
-      const adjustedGasPrice = currentGasPrice.add(
-        ethers.utils.parseUnits("10", "gwei")
-      );
+        const gasOverrides = {
+          maxPriorityFeePerGas: 100e9, // 100 Gwei
+          maxFeePerGas: 150e9,
+          gasLimit: 200000,
+        };
+
 
     console.log("Minting now")
-      const tx = await contract.mint(userAddress, TOKEN_ID, {
-        gasPrice: adjustedGasPrice, // for pre-EIP-1559
-      });
+      const tx = await contract.mint(userAddress, TOKEN_ID, gasOverrides);
       console.log('Awaiting transaction')
       const receipt = await tx.wait();
       console.log("NFT minted successfully!", receipt);
