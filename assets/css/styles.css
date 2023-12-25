@@ -2,3 +2,24 @@ body, html {
     max-height: 100vh;
     overflow: hidden; /* This will prevent scrolling */
   }
+
+.hero1 {
+  position: absolute;
+  width: 100% ;
+  height: 100% ;
+  opacity: 0;
+  animation: fadeInOut 5s linear infinite alternate;
+}
+
+.hero1 {
+  animation-delay: 0s;
+}
+
+@keyframes fadeInOut {
+  0%, 10% {
+    opacity: 0;
+  }
+  90%, 100% {
+    opacity: 1;
+  }
+}
