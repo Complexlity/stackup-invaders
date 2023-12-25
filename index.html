@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Stackup Invaders</title>
     <style>
       [x-cloak] { display: none !important; }
     </style>
@@ -136,7 +136,7 @@ window.gameIsNotOn = true
     <section
     x-show="!playing"
     x-cloak
-      class="h-[calc(100vh-40px)] w-full max-w-[150ch] mx-auto py-4 text-white grid items-center gap-8"
+      class="h-[calc(100vh-60px)] w-full max-w-[150ch] mx-auto py-2 text-white grid items-center gap-8"
     >
       <div class="container px-4 md:px-6">
         <div
@@ -146,8 +146,10 @@ window.gameIsNotOn = true
             <h1
               class="text-4xl text-center font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-purple-500 via-pink-500 to-red-500"
             >
-              Welcome to Game Channel
+              Welcome to StackUp Invaders
             </h1>
+            <p class="text-2xl italic text-teal-600">The best game for legendary shooters
+            </p>
           </div>
           <div class="relative rounded-md w-4/5 lg:w-1/2">
             <img
@@ -171,7 +173,7 @@ window.gameIsNotOn = true
       </div>
 
       <!-- Play now button -->
-      <div class="space-x-4 text-center">
+      <div class="space-x-4 text-center mb-2">
         <div class="relative inline-flex group">
           <div
             class="absolute transitiona-all duration-1000 opacity-70 -inset-px bg-gradient-to-r from-[#44BCFF] via-[#FF44EC] to-[#FF675E] rounded-xl blur-lg group-hover:opacity-100 group-hover:-inset-1 group-hover:duration-200 animate-tilt"
