@@ -1,6 +1,7 @@
-import { ethers, getDefaultProvider } from "../../libs/ethers-5.6.2.esm.min.js";
+import { ethers, getDefaultProvider, Wallet } from "../../libs/ethers-5.6.2.esm.min.js";
 
 window.provider = window.passport.connectEvm();
+
 
 const connectPassport = async function () {
   window.accounts = await window.provider.request({
@@ -12,6 +13,7 @@ const connectPassport = async function () {
   }
 
 };
+
 window.connectPassport = connectPassport
 
 const config = {
@@ -85,13 +87,16 @@ async function getData(id) {
   </div>
     `;
     const claimBtn = this.document.getElementById("claim-btn");
-    claimBtn.onclick = async function () {
-      if (id === "1") {
-        await mintNft();
-      } else if (id === "2") {
-        await refreshNft();
-      }
-    };
+    console.log(claimBtn)
+    claimBtn.addEventListener('click', async function (event) {
+  event.target.classList.add('disabled', 'bg-green-300', '!cursor-not-allowed');
+  event.target.textContent = 'Claiming Nft...'
+  if (id === "1") {
+    await mintNft();
+  } else if (id === "2") {
+    await mintNft();
+  }
+})
     return details;
   } catch (error) {
     console.error(error);
@@ -102,51 +107,26 @@ async function getData(id) {
 window.getData = getData;
 
 
-const grantMinterRole = async (recipientAddress) => {
-  try {
-    const provider = getDefaultProvider("https://rpc.testnet.immutable.com");
-    const adminWallet = new ethers.Wallet(PRIVATE_KEY, provider);
-    const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      CONTRACT_ABI,
-      adminWallet
-    );
-
-    const minterRole = await contract.MINTER_ROLE();
-
-    const currentGasPrice = await provider.getGasPrice();
-    const adjustedGasPrice = currentGasPrice.add(
-      ethers.utils.parseUnits("10", "gwei")
-    );
-    const tx = await contract.grantRole(minterRole, recipientAddress, {
-      gasPrice: adjustedGasPrice,
-    });
-
-    await tx.wait();
-    console.log("Minter Role Granted to", recipientAddress);
-  } catch (e) {
-    console.error("Error in granting minter role:", e);
-  }
-};
-
 const mintNft = async function () {
-  if (window?.provider) {
-    const provider = new ethers.providers.Web3Provider(window.provider);
-    const signer = provider.getSigner();
-    const userAddress = await signer.getAddress();
-    const contract = new ethers.Contract(
-      CONTRACT_ADDRESS,
-      CONTRACT_ABI,
-      signer
-    );
+
+  if (window?.accounts) {
+    try {
+    const recipientAddress = window.accounts[0]
+
+      const provider = getDefaultProvider("https://rpc.testnet.immutable.com");
+
+      const wallet = new Wallet(PRIVATE_KEY, provider);
+
+
+      const contract = new ethers.Contract(
+        CONTRACT_ADDRESS,
+        CONTRACT_ABI,
+        wallet
+      );
 
       console.log("getting next token id")
       const TOKEN_ID = await getNextTokenId(contract);
       console.log({TOKEN_ID})
-      // const currentGasPrice = await provider.getGasPrice();
-      // const adjustedGasPrice = currentGasPrice.add(
-      //   ethers.utils.parseUnits("10", "gwei")
-      // );
 
         const gasOverrides = {
           maxPriorityFeePerGas: 100e9, // 100 Gwei
@@ -155,23 +135,30 @@ const mintNft = async function () {
         };
 
 
-    console.log("Minting now")
-      const tx = await contract.mint(userAddress, TOKEN_ID, gasOverrides);
+      console.log("Minting now")
+        const populatedTransaction = await contract.populateTransaction.mint(recipientAddress, TOKEN_ID, gasOverrides);
+        console.log({populatedTransaction})
       console.log('Awaiting transaction')
-      const receipt = await tx.wait();
-      console.log("NFT minted successfully!", receipt);
+      const result = await wallet.sendTransaction(populatedTransaction);
+      console.log("NFT minted successfully!", result);
       let nft = document.getElementById("nft");
-      nft.innerHTML += `
+      nft.innerHTML = `
             <div class="alert alert-success">
-              NFT minted successfully! Transaction hash: ${receipt.transactionHash}
+              NFT minted successfully!
+              <a target="_blank" href="https://explorer.testnet.immutable.com/tx/${result.hash}"><button class="m-2 btn btn-primary">
+              View Transaction
+              </button></a>
             </div>`;
-  //   } catch (error) {
-  //     console.error("Error minting the first NFT:", error);
-  //   }
-  // } else {
-  //   console.log("No provider found.");
+
+      } catch (error) {
+        console.log(error)
+      console.error("Error minting the first NFT:", error);
+    }
+  } else {
+    console.log("No provider found.");
   }
 };
+window.mintNft = mintNft
 
 async function getNextTokenId(contract) {
   try {
@@ -182,6 +169,7 @@ async function getNextTokenId(contract) {
     return null;
   }
 }
+
 
 const upgradeNft = async function () {
   const upgradeEvent = new CustomEvent("upgradeSpaceship");
