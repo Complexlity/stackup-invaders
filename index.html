@@ -27,7 +27,7 @@
   <script src="assets/js/sketch.js" type="application/javascript" defer></script>
   </head>
   <body
-  class="prose"
+  class=""
     x-data='{
     user: "",
     loadingUser: false,
@@ -43,8 +43,12 @@ window.gameIsNotOn = true
 "
     style="background-image: url('assets/images/bg.png')"
   >
-    <header class="flex items-center justify-between px-4 py-2 text-white">
-      <h1 class="text-2xl font-bold">Game Channel</h1>
+    <header class="container flex items-center justify-between px-4 py-2 text-white">
+      <a href="https://github.com/Complexlity" target="_blank">
+        <div class="w-12 h-12 m-1">
+          <img alt="logo" src="assets/images/complex.png" class="w-full h-full object-cover">
+        </div>
+      </a>
       <div
       x-cloak
       x-show="!user"
