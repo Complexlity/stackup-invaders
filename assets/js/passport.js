@@ -1,12 +1,20 @@
 let DOMAIN
 let CLIENT_ID
 
-if(window.location.href.includes("localhost")){
+let url = window.location.href;
+
+if(url.includes("localhost")){
   DOMAIN = "http://localhost:5500/"
   CLIENT_ID = "LOCmHiZuAGofHBVlOkAcHbJh80Z8DYhJ"
-  }else{
+}
+else if (url.includes('vercel')) {
   DOMAIN = "https://stackup-invaders.vercel.app/"
   CLIENT_ID = "1jOXOSHt33RhUrLrl0R0tgv3Kn4J2WPY";
+
+}
+else {
+  DOMAIN = "https://stackup-invaders.netlify.app/";
+  CLIENT_ID = "zmXQZuc3dBGQMTF9e1QaFJxRbpTUxiM3";
 }
 
 
