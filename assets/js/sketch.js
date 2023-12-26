@@ -51,9 +51,13 @@ function setup() {
   gameOverSound = new Audio("sounds/fail.wav")
   // Create the resume game button but hide it initially
   resumeButton = createButton('Resume Game');
+  resumeButton.class(
+    "hover:bg-blue-600 text-white text-xl px-4 py-2 bg-blue-800 rounded-xl"
+  );
   resumeButton.position(width / 2 - 40, height / 2 + 220);
   resumeButton.mousePressed(resumeGame);
   resumeButton.hide();
+
 }
 
 function showGameOver() {
