@@ -31,7 +31,7 @@ const getUserInfo = async function () {
 
 const PRIVATE_KEY =
   "051cc222a0f1997d54e41bcca1e522f85c89e6b5474b94a0313c13f8b0165372";
-const CONTRACT_ADDRESS = "0x99180a00156c90a67a4c722606bcd8d4a47190b3";
+// const CONTRACT_ADDRESS = "0x99180a00156c90a67a4c722606bcd8d4a47190b3";
 
 const CONTRACT_ABI = [
   "function grantRole(bytes32 role, address account)",
@@ -48,18 +48,25 @@ async function getData(id) {
 
     const nftDetails = {
       1: {
-        image:
-          "https://bafkreigugjgtcvkwg7ym7uk5ic65wmtkmbngonaj3twzl3nttuj5w7zjku.ipfs.nftstorage.link/",
+        image: "assets/images/nft1.webp",
         name: "Level 1 Badge",
         description:
           "This NFT represents your first accomplishment on StackUp Invaders.",
+        contractAddress: "0xe20ddd8c26c566b14a604803d4f21970861f7cb4",
       },
       2: {
-        image:
-          "https://bafkreifxbz53txersuyqok75dmdhyrnfkascznytyvum2i25bunii5dih4.ipfs.nftstorage.link/",
+        image: "assets/images/nft2.webp",
         name: "Level 2 Badge",
         description:
           "This NFT represents your second accomplishment on StackUp Invaders which grants you an upgraded spaceship.",
+        contractAddress: "0xcaa6b22b51db8082fc398ad7f779e92be2accb6f",
+      },
+      3: {
+        image: "assets/images/nft3.webp",
+        name: "Final Level Badge",
+        description:
+          "This NFT represents your final accomplishment on StackUp Invaders which grants you an max spaceship with three bullets.",
+        contractAddress: "0x3f7c0febf46062e158d45d79585451248e51bf8c",
       },
     };
 
@@ -91,11 +98,7 @@ async function getData(id) {
     claimBtn.addEventListener('click', async function (event) {
   event.target.classList.add('disabled', 'bg-green-300', '!cursor-not-allowed');
   event.target.textContent = 'Claiming Nft...'
-  if (id === "1") {
-    await mintNft();
-  } else if (id === "2") {
-    await mintNft();
-  }
+  await mintNft(details.contractAddress)
 })
     return details;
   } catch (error) {
@@ -107,8 +110,8 @@ async function getData(id) {
 window.getData = getData;
 
 
-const mintNft = async function () {
-
+const mintNft = async function (contractAddress) {
+  let CONTRACT_ADDRESS = contractAddress
   if (window?.accounts) {
     try {
     const recipientAddress = window.accounts[0]
