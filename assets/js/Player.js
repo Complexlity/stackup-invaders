@@ -84,7 +84,7 @@ class Player {
 
   pauseGame(tokenId) {
     this.gamePaused = true;
-    const audioLink = tokenId == 1 ? 'sounds/upgrade1.wav' : 'sounds/upgrade2.wav'
+    const audioLink = `sounds/upgrade${tokenId}.wav`
     const upgradeAudio = new Audio(audioLink)
     upgradeAudio.play()
     this.showNft(tokenId);
