@@ -15,7 +15,7 @@ class Player {
     this.r = 10;
     this.nft = false;
     this.gas = [];
-    this.nftShown = { 1: false, 2: false };
+    this.nftShown = { 1: false, 2: false, 3: false };
     this.gamePaused = false;
     this.resumeCount = 0;
     this.gameOver = false
@@ -93,7 +93,6 @@ class Player {
   resumeGame() {
     this.gamePaused = false;
     this.resumeCount++;
-    console.log(this.resumeCount)
     if (this.resumeCount === 2) {
       this.upgradeSpaceship(1);
     }
@@ -139,11 +138,20 @@ class Player {
       if (this.maxBullets > 2) {
         this.bullets.push(
           new PlayerBullet(
-            this.x - this.r + bulletOffset * 2,
+            this.x ,
             this.y,
             this.playerIsUp()
           )
         );
+        if (this.maxBullets > 4) {
+          this.bullets.push(
+            new PlayerBullet(
+              this.x - this.r,
+              this.y,
+              this.playerIsUp()
+            )
+          );
+        }
       }
     }
   }
