@@ -10,6 +10,7 @@ let loading = 10;
 let loadingPlus = true;
 let resumeButton;
 let upgradedShooterImage;
+let upgradedShooterImage2;
 let inGameSound;
 let gameOverSound;
 let startButton = document.querySelector('.start-button')
@@ -27,6 +28,7 @@ function preload() {
   alienImage = loadImage("assets/images/invader1.png");
   shooterImage = loadImage('assets/images/player.png');
   upgradedShooterImage = loadImage('assets/images/playerv2.png');
+  upgradedShooterImage2 = loadImage('assets/images/playerv3.png');
 }
 
 

@@ -39,9 +39,16 @@ class Player {
     this.lives -= 1;
   }
 
-  upgradeSpaceship() {
-    this.image = loadImage("assets/images/playerv2.png");
-    this.maxBullets = 4;
+  upgradeSpaceship(value) {
+    if (value == 1) {
+      this.image = loadImage("assets/images/playerv2.png");
+      this.maxBullets = 4;
+    }
+    else if (value === 2) {
+      this.image = loadImage("assets/images/playerv3.png");
+      this.maxBullets = 8;
+    }
+
   }
 
   // game state
@@ -86,8 +93,12 @@ class Player {
   resumeGame() {
     this.gamePaused = false;
     this.resumeCount++;
+    console.log(this.resumeCount)
     if (this.resumeCount === 2) {
-      this.upgradeSpaceship();
+      this.upgradeSpaceship(1);
+    }
+    if (this.resumeCount === 3) {
+      this.upgradeSpaceship(2);
     }
   }
 
@@ -150,6 +161,11 @@ class Player {
       this.gamePaused = true;
       this.pauseGame("2");
     }
+     else if (this.score == 200 && !this.nftShown["3"]) {
+      this.gamePaused = true;
+      this.pauseGame("3");
+    }
+
   }
 
   drawBullets() {
