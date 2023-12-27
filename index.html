@@ -118,8 +118,9 @@ x-text="loadingUser ? 'Connecting...' : 'Connect Wallet'"
       window.gameIsNotOne = false
       loggingOut=false
       "
+:class="loggingOut ? 'disabled text-gray-500 px-2 !cursor-not-allowed' :
+'text-white cursor-pointer'"
 
-:class="loggingOut ? 'disabled text-gray-500 px-2 !cursor-not-allowed' : 'text-white cursor-pointer'"
         class="flex items-center text-xl bg-red-950 text-white !border !border-red-400 !border-b-4 font-medium overflow-hidden relative px-4 py-2 !rounded-xl hover:brightness-150 hover:!border-t-4 hover:!border-b active:opacity-75 outline-none duration-300 group">
           <svg
         x-show="loggingOut"
