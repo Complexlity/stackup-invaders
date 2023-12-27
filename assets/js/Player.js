@@ -162,14 +162,14 @@ class Player {
     this.drawBullets();
     this.drawGas();
 
-    if (this.score == 50 && !this.nftShown["1"]) {
+    if (this.score == 100 && !this.nftShown["1"]) {
       this.gamePaused = true;
       this.pauseGame("1");
-    } else if (this.score == 100 && !this.nftShown["2"]) {
+    } else if (this.score == 400 && !this.nftShown["2"]) {
       this.gamePaused = true;
       this.pauseGame("2");
     }
-     else if (this.score == 200 && !this.nftShown["3"]) {
+     else if (this.score == 1000 && !this.nftShown["3"]) {
       this.gamePaused = true;
       this.pauseGame("3");
     }
