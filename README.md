@@ -97,6 +97,20 @@ I added two new features to the game play
 
 2. I added a new spaceship and bullet at thrid level. Where spaceship shoots three bullets rather than two
 
+## Getting Started
+
+To test this application locally, run the following commands on the terminal
+
+- Clone the repository
+
+```bash
+git clone https://github.com/Complexlity/stackup-invaders
+cd stackup-invaders
+```
+
+- Open the `index.html` file in the browser!. No more installations needed
+
+
 
 
 
