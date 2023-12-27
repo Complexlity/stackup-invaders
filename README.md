@@ -109,8 +109,3 @@ cd stackup-invaders
 ```
 
 - Open the `index.html` file in the browser!. No more installations needed
-
-
-
-
-
