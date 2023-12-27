@@ -93,12 +93,32 @@ async function getData(id) {
     </div>
   </div>
     `;
+let finalResult
+    if (id == 2) {
+      finalResult =
+        `
+            <div class="alert alert-success">
+             SpaceShip Upgraded to Level 2. Bullets Upgraded to Level 2
+            </div>`;
+          }
+          if (id == 3) {
+      finalResult =
+        `
+            <div class="alert alert-success">
+             Congratulations!!!. Final Upgrade Level Reached. Now see how long you can last </br>
+             SpaceShip Upgraded to Level 3. Bullets Upgraded to Level 3
+            </div>`;
+
+    }
+
     const claimBtn = this.document.getElementById("claim-btn");
     console.log(claimBtn)
     claimBtn.addEventListener('click', async function (event) {
   event.target.classList.add('disabled', 'bg-green-300', '!cursor-not-allowed');
   event.target.textContent = 'Claiming Nft...'
-  await mintNft(details.contractAddress)
+      await mintNft(details.contractAddress).then(() => {
+    nft.innerHTML += finalResult
+  })
 })
     return details;
   } catch (error) {
@@ -174,12 +194,4 @@ async function getNextTokenId(contract) {
 }
 
 
-const upgradeNft = async function () {
-  const upgradeEvent = new CustomEvent("upgradeSpaceship");
-  window.dispatchEvent(upgradeEvent);
-  nft.innerHTML += `
-            <div class="alert alert-success">
-              Your spaceship has been upgraded! At this stage, there is no NFT.
-            </div>`;
-};
 
