@@ -31,13 +31,12 @@
     x-data='{
     user: "",
     loadingUser: false,
-    playing: false
+    playing: false,
   }'
     x-init="
 window.passport.loginCallback()
 "
 @notconnected="
-console.log('user is not connected')
 window.gameIsNotOn = true
  playing=false
 "
@@ -55,9 +54,11 @@ window.gameIsNotOn = true
 
       @click="
         loadingUser = true
+        const api = 'https://immutable-game.vercel.app/api/scoring'
         try {
           await connectPassport()
           user = window.userProfile
+          
         }
         catch(err){
           console.log(err)
@@ -264,6 +265,7 @@ Start Game
     </div>
 
     </section>
+
   </body>
 
 

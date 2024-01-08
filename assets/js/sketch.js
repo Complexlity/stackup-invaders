@@ -14,14 +14,12 @@ let upgradedShooterImage2;
 let inGameSound;
 let gameOverSound;
 let startButton = document.querySelector('.start-button')
-console.log(startButton)
 startButton.addEventListener('click', (e) => {
   e.target.classList.add('hidden')
   mousePressed()
 
 })
 
-console.log("I loaded")
 const NUM_DEBRIS = 5; // number of space debris
 
 function preload() {
@@ -40,7 +38,6 @@ function setup() {
   canvas.parent('sketch-holder');
   invaders = new Invaders(alienImage, 4);
   player = new Player(shooterImage);
-  console.log({playerLivess: player.lives})
 
 
   // create the debris objects
@@ -73,7 +70,6 @@ function showGameOver() {
 }
 
 function resumeGame() {
-  console.log('Resuming game, hiding resume button');
   player.resumeGame();
   resumeButton.hide();
   loop();
@@ -83,7 +79,6 @@ function resumeGame() {
 
 function draw() {
   if (gameOver) {
-    console.log(gameOver)
     if(player.gameOver) return
     player.gameOver = true
     gameOverSound.play()
@@ -107,13 +102,11 @@ function draw() {
     // Check if the game needs to be paused
     if (player.gamePaused && resumeButton.elt.style.display === 'none') {
        inGameSound.pause();
-      console.log('Pausing game, showing resume button');
       noLoop();
       resumeButton.show();
     }
 
     if (player.lives == 0) {
-      console.log("I will set the gameOver. Duhhh")
       inGameSound.pause()
       gameOver = true;
     }

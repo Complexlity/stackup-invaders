@@ -7,7 +7,6 @@ const connectPassport = async function () {
   window.accounts = await window.provider.request({
     method: "eth_requestAccounts",
   });
-  console.log(window.accounts);
   if (window.accounts) {
     await getUserInfo();
   }
@@ -25,7 +24,11 @@ const config = {
 const client = new window.immutable.blockchainData.BlockchainData(config);
 
 const getUserInfo = async function () {
-  window.userProfile = await window.passport.getUserInfo();
+  const highestScoringApi = "https://immutable-game.vercel.app/api/scoring";
+  const [userProfile, highestScore] = await Promise.all([window.passport.getUserInfo(), fetch(highestScoringApi).then(res => res.json())])
+  window.userProfile = {...userProfile, address:window.accounts[0]}
+  window.highestScore = highestScore
+
 };
 
 
@@ -112,7 +115,6 @@ let finalResult
     }
 
     const claimBtn = this.document.getElementById("claim-btn");
-    console.log(claimBtn)
     claimBtn.addEventListener('click', async function (event) {
   event.target.classList.add('disabled', 'bg-green-300', '!cursor-not-allowed');
   event.target.textContent = 'Claiming Nft...'
@@ -147,9 +149,7 @@ const mintNft = async function (contractAddress) {
         wallet
       );
 
-      console.log("getting next token id")
       const TOKEN_ID = await getNextTokenId(contract);
-      console.log({TOKEN_ID})
 
         const gasOverrides = {
           maxPriorityFeePerGas: 100e9, // 100 Gwei
@@ -158,12 +158,8 @@ const mintNft = async function (contractAddress) {
         };
 
 
-      console.log("Minting now")
         const populatedTransaction = await contract.populateTransaction.mint(recipientAddress, TOKEN_ID, gasOverrides);
-        console.log({populatedTransaction})
-      console.log('Awaiting transaction')
       const result = await wallet.sendTransaction(populatedTransaction);
-      console.log("NFT minted successfully!", result);
       let nft = document.getElementById("nft");
       nft.innerHTML = `
             <div class="alert alert-success">
