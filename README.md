@@ -97,6 +97,9 @@ I added two new features to the game play
 
 2. I added a new spaceship and bullet at thrid level. Where spaceship shoots three bullets rather than two
 
+3. I added an global high score. For every user that beats this high score, the user's address and the new high score is saved to a Redis database via a serverless function on vercel.
+Save and Load Score Code found [Here](https://github.com/Complexlity/immutable-game/blob/main/src/pages/api/scoring.js)
+
 ## Getting Started
 
 To test this application locally, run the following commands on the terminal
