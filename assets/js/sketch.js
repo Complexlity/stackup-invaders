@@ -15,9 +15,9 @@ let inGameSound;
 let gameOverSound;
 let startButton = document.querySelector('.start-button')
 startButton.addEventListener('click', (e) => {
-  e.target.classList.add('hidden')
-  mousePressed()
-
+  e.target.classList.add("hidden");
+  gameOver = false;
+  setup();
 })
 
 const NUM_DEBRIS = 5; // number of space debris
@@ -84,7 +84,8 @@ function draw() {
     gameOverSound.play()
     window.finalGameScore = player.score
     const event = new Event("gameover");
-    document.body.dispatchEvent(event);
+    const customModal = document.querySelector(".congrats-modal");
+    customModal.dispatchEvent(event);
     showGameOver();
 
   } else if (window?.userProfile?.email && window.gameIsStarted) {
@@ -121,13 +122,13 @@ function draw() {
   }
 }
 
-function mousePressed() {
-  if (gameOver === true) {
-    startButton.classList.add('hidden')
-    gameOver = false;
-    setup();
-  }
-}
+// function mousePressed() {
+//   if (gameOver === true) {
+//     startButton.classList.add('hidden')
+//     gameOver = false;
+//     setup();
+//   }
+// }
 
 function keyPressed() {
   if (keyCode === RIGHT_ARROW || keyCode == 88) {

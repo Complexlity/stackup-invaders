@@ -6,15 +6,22 @@
     <title>Stackup Invaders</title>
     <style>
       [x-cloak] { display: none !important; }
+    .modal {
+      transition: opacity 0.25s ease;
+    }
+    body.modal-active {
+      overflow-x: hidden;
+      overflow-y: visible !important;
+    }
+
     </style>
+    <script src="libs/tailwind.js"></script>
     <link rel="stylesheet" href="assets/css/styles.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
-    integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@imtbl/sdk@0.34.0"></script>
+<link rel="stylesheet" href="libs/bootstrap.min.css" defer>
+    <script src="libs/imtbl-sdk@0.34.0.js" defer></script>
     <script type="module" src="assets/js/passport.js"></script>
     <script type="module" src="assets/js/login.js"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="libs/alpine.js" defer></script>
     <script src="libs/p5.min.js"></script>
     <script src="libs/p5.dom.min.js"></script>
     <script src="assets/js/Alien.js" type="application/javascript"></script>
@@ -30,6 +37,7 @@
   class=""
     x-data='{
     highestScore: null,
+    highestScoreUser: null,
     user: "",
     loadingUser: false,
     playing: false,
@@ -40,12 +48,6 @@ window.passport.loginCallback()
 @notconnected="
 window.gameIsNotOn = true
  playing=false
-"
-@gameover="
-alert('Game Just Finished Baby')
-const finalGameScore = window.finalGameScore
-if(highestScore >= finalGameScore) return
-console.log('I beat the highest score. Duh')
 "
 
     style="background-image: url('assets/images/bg.png')"
@@ -65,8 +67,8 @@ console.log('I beat the highest score. Duh')
         try {
           await connectPassport()
           user = window.userProfile
-          highestScore = window.highestScore
-          console.log({highestScore})
+          highestScore = window.highestScoreData.score
+          highestScoreUser = window.highestScoreData.userAddress
 
         }
         catch(err){
@@ -120,13 +122,18 @@ x-text="loadingUser ? 'Connecting...' : 'Connect Wallet'"
       x-show="user"
       @click="
       loggingOut=true
-      await window.passport.logout()
-      window.userProfile=''
-      user = ''
-      playing = ''
-      window.gameIsStarted = false
-      window.gameIsNotOne = false
-      loggingOut=false
+      try{
+        await window.passport.logout()
+        window.userProfile=''
+        user = ''
+        playing = ''
+        window.gameIsStarted = false
+        window.gameIsNotOne = false
+      }catch(error){
+        console.log(error)
+      }finally{
+        loggingOut=false
+      }
       "
 :class="loggingOut ? 'disabled text-gray-500 px-2 !cursor-not-allowed' :
 'text-white cursor-pointer'"
@@ -149,6 +156,7 @@ x-text="loadingUser ? 'Connecting...' : 'Connect Wallet'"
 
         <path d="M21 12a9 9 0 1 1-6.219-8.56" />
         </svg>
+
   <span
 
   class="bg-red-400 shadow-red-400 absolute -top-[150%] left-0 inline-flex w-80 h-[5px] rounded-md opacity-50 group-hover:top-[150%] duration-500 shadow-[0_0_10px_10px_rgba(0,0,0,0.3)]"></span>
@@ -158,6 +166,110 @@ x-text="loggingOut ? 'Logging Out...' : 'Log Out'"
 </button>
     </div>
     </header>
+    <section
+    class="congrats-modal"
+
+    x-data='{
+      savingScore: false,
+      savingSuccess: false
+    }'
+
+    @gameover='
+alert("Game Just Finished Baby")
+const finalGameScore = window.finalGameScore
+if(highestScore >= finalGameScore) return
+highestScore = finalGameScore
+highestScoreUser = user.address
+savingScore = true
+window.toggleModal()
+const api = window.highestScoringApi
+const data = {
+  email: user.email,
+  address: user.address,
+  score: finalGameScore
+}
+try{
+  const res = await fetch(api, {
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "POST",
+    body: JSON.stringify(data)
+	})
+  savingSuccess = true
+	const result = await res.json()
+} catch(e){
+  console.log(e)
+  savingSuccess = false
+}finally {
+  savingScore = false
+}
+'
+    >
+  <!--Modal-->
+  <div class="modal scale-0 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+    <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
+
+    <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+
+
+
+      <!-- Add margin if you want to see some of the overlay behind the modal-->
+      <div class="modal-content py-4 text-left px-6">
+        <!--Title-->
+        <div class="flex justify-between items-center pb-3">
+          <p class="text-2xl text-center flex-1">Congratulations!!! <span class="font-bold" x-text="user.email"></span>
+          <br/>
+            You Beat The Highscore</p>
+          <div class="modal-close cursor-pointer z-50">
+            <svg
+            x-show="!savingScore"
+            class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+          </div>
+        </div>
+
+
+        <!--Body-->
+        <div class="flex my-4 gap-4 items-center justify-center">
+           <p :class="savingScore ? 'text-amber-400' : savingSuccess ? 'text-green-600' : 'text-red-600'"
+           class="font-bold text-2xl"
+           x-text="savingScore ? 'Saving Score...' : savingSuccess ? 'Highest Score Saved' : 'Something Went Wrong'"></p>
+           <svg
+        x-show="savingScore"
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="mr-2 h-8 w-8 animate-spin text-amber-500"
+        x-cloak
+        ><path d="M21 12a9 9 0 1 1-6.219-8.56" />
+        </svg>
+        <svg
+        x-show="!savingScore && savingSuccess"
+        class="text-green-700"
+        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-check"><path d="M20 6 9 17l-5-5"/></svg>
+        <svg
+            x-show="!savingScore && !savingSuccess"
+            class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+              <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+            </svg>
+      </div>
+        <!--Footer-->
+        <div
+        class="flex justify-end pt-2">
+          <button :disabled='savingScore' :class="savingScore ? 'bg-indigo-400' : ''" class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
+        </div>
+
+    </div>
+  </div>
+    </section>
     <section
     x-show="!playing"
     x-cloak
@@ -224,8 +336,8 @@ x-text="loggingOut ? 'Logging Out...' : 'Log Out'"
       </div>
     </section>
     <section
-    x.cloak
-    x.show="playing"
+    x-cloak
+    x-show="playing"
     >
 
 <div
@@ -239,7 +351,8 @@ x-show="playing"
             <div class="alert alert-primary" role="alert">
               Overall Highest Score: <span x-text="highestScore">
               </span>
-               <span class="italic text-base text-[#6400ff] font-bold mx-1">(Try to beat the overall highest score)</span>
+               <span class="italic text-sm mx-1">(Current Highest Score Set by <span class="text-[#6400ff] text-base font-bold " x-text="highestScoreUser == user.address ? 'You' : highestScoreUser"></span>)</span>
+
             </div>
     </div>
       <div class="row">
@@ -277,10 +390,46 @@ Start Game
 
       </div>
     </div>
-
     </section>
-
   </body>
 
+<script>
 
+    // const overlay = document.querySelector('.modal-overlay')
+    // overlay.addEventListener('click', toggleModal)
+
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+      closemodal[i].addEventListener('click', () => {
+      const modal = document.querySelector('.modal')
+      if(modal.classList.contains("opacity-0")) return
+        toggleModal()
+      })
+    }
+
+    // document.onkeydown = function(evt) {
+    //   evt = evt || window.event
+    //   var isEscape = false
+    //   if ("key" in evt) {
+    // 	isEscape = (evt.key === "Escape" || evt.key === "Esc")
+    //   } else {
+    // 	isEscape = (evt.keyCode === 27)
+    //   }
+    //   if (isEscape && document.body.classList.contains('modal-active')) {
+    // 	toggleModal()
+    //   }
+    // };
+
+
+    function toggleModal () {
+      const body = document.querySelector('body')
+      const modal = document.querySelector('.modal')
+      modal.classList.toggle('opacity-0')
+      modal.classList.toggle('scale-0')
+      modal.classList.toggle('pointer-events-none')
+      body.classList.toggle('modal-active')
+    }
+
+    window.toggleModal = toggleModal
+  </script>
 </html>
