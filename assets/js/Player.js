@@ -129,7 +129,6 @@ class Player {
     let shootSound = new Audio('sounds/shoot2.wav')
     shootSound.play()
 
-    const bulletOffset = 5;
     if (this.bullets.length < this.maxBullets) {
       this.bullets.push(
         new PlayerBullet(this.x + this.r, this.y, this.playerIsUp())

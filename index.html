@@ -41,6 +41,13 @@ window.passport.loginCallback()
 window.gameIsNotOn = true
  playing=false
 "
+@gameover="
+alert('Game Just Finished Baby')
+const finalGameScore = window.finalGameScore
+if(highestScore >= finalGameScore) return
+console.log('I beat the highest score. Duh')
+"
+
     style="background-image: url('assets/images/bg.png')"
   >
     <header class="container flex items-center justify-between px-4 py-2 text-white">
@@ -225,11 +232,8 @@ x-text="loggingOut ? 'Logging Out...' : 'Log Out'"
 x-cloak
 x-show="playing"
     class="container-fluid p-4">
-
-      <div class="row">
-        <div class="col-6">
-          <div class="row">
-            <div class="alert alert-primary" role="alert">
+    <div class="flex gap-4">
+<div class="alert alert-primary" role="alert">
               Press the spacebar to shoot and arrows to move in all 4 directions!
             </div>
             <div class="alert alert-primary" role="alert">
@@ -237,6 +241,10 @@ x-show="playing"
               </span>
                <span class="italic text-base text-[#6400ff] font-bold mx-1">(Try to beat the overall highest score)</span>
             </div>
+    </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="row">
             <div class="card col-12 pt-2 pb-2 ">
               <div class="">
                 <div
@@ -255,7 +263,6 @@ x-show="playing"
         </div>
         <div class="col-6">
           <div id="nft">
-
           </div>
         </div>
       </div>

@@ -82,6 +82,9 @@ function draw() {
     if(player.gameOver) return
     player.gameOver = true
     gameOverSound.play()
+    window.finalGameScore = player.score
+    const event = new Event("gameover");
+    document.body.dispatchEvent(event);
     showGameOver();
 
   } else if (window?.userProfile?.email && window.gameIsStarted) {

@@ -84,7 +84,7 @@ async function getData(id) {
     <div class="card" >
     <div class="card-body">
       <div class="media">
-        <img src='${details.image}' class="mr-3 img-thumbnail" alt="nft" style="width: 30%;">
+        <img src='${details.image}' class="mr-3 img-thumbnail rounded-md" alt="nft" style="width: 30%;">
         <div class="media-body">
           <h5 class="card-title">${details.name}</h5>
           <p class="card-text">'${details.description}'</p>
