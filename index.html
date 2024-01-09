@@ -29,6 +29,7 @@
   <body
   class=""
     x-data='{
+    highestScore: null,
     user: "",
     loadingUser: false,
     playing: false,
@@ -54,11 +55,12 @@ window.gameIsNotOn = true
 
       @click="
         loadingUser = true
-        const api = 'https://immutable-game.vercel.app/api/scoring'
         try {
           await connectPassport()
           user = window.userProfile
-          
+          highestScore = window.highestScore
+          console.log({highestScore})
+
         }
         catch(err){
           console.log(err)
@@ -229,6 +231,11 @@ x-show="playing"
           <div class="row">
             <div class="alert alert-primary" role="alert">
               Press the spacebar to shoot and arrows to move in all 4 directions!
+            </div>
+            <div class="alert alert-primary" role="alert">
+              Overall Highest Score: <span x-text="highestScore">
+              </span>
+               <span class="italic text-base text-[#6400ff] font-bold mx-1">(Try to beat the overall highest score)</span>
             </div>
             <div class="card col-12 pt-2 pb-2 ">
               <div class="">
