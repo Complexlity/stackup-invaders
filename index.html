@@ -178,14 +178,13 @@ x-text="loggingOut ? 'Logging Out...' : 'Log Out'"
 const finalGameScore = window.finalGameScore
 if(highestScore >= finalGameScore) return
 highestScore = finalGameScore
-highestScoreUser = user.address
+highestScoreUser = window.userProfile.address
 savingScore = true
 window.toggleModal()
 const api = window.highestScoringApi
 const data = {
-  email: user.email,
-  address: user.address,
-  score: finalGameScore
+  score: finalGameScore,
+  userAddress: highestScoreUser,
 }
 try{
   const res = await fetch(api, {
@@ -204,6 +203,7 @@ try{
   savingScore = false
 }
 '
+
     >
   <!--Modal-->
   <div class="modal scale-0 opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
