@@ -1,3 +1,7 @@
+const LEVEL_1_SCORE = 100
+const LEVEL_2_SCORE = 200
+const LEVEL_3_SCORE = 300
+
 
 class Player {
   constructor(shooterImage) {
@@ -161,14 +165,14 @@ class Player {
     this.drawBullets();
     this.drawGas();
 
-    if (this.score == 100 && !this.nftShown["1"]) {
+    if (this.score == LEVEL_1_SCORE && !this.nftShown["1"]) {
       this.gamePaused = true;
       this.pauseGame("1");
-    } else if (this.score == 400 && !this.nftShown["2"]) {
+    } else if (this.score == LEVEL_2_SCORE && !this.nftShown["2"]) {
       this.gamePaused = true;
       this.pauseGame("2");
     }
-     else if (this.score == 1000 && !this.nftShown["3"]) {
+     else if (this.score == LEVEL_3_SCORE && !this.nftShown["3"]) {
       this.gamePaused = true;
       this.pauseGame("3");
     }
