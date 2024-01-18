@@ -53,27 +53,26 @@ I improved the user interface in the following ways
 I made the experience playing the game even better in the following ways
 
 1. I added sounds for every activity that happens in the game. As this is standard expectation in [fixed shooter games](https://en.wikipedia.org/wiki/Category:Fixed_shooters).
-The main sounds category are
+The main sounds category are:
 
 - **Fail Sound**. When the user is defeated. Found in [/sounds/fail.wav](/sounds/fail.wav)
 - **Shotting Sound**. There two shooter sounds. One for the player ([/sounds/shoot2.wav](/sounds/shoot2.wav)) on the other for the invaders
-([/sounds/shoot.wav](/sounds/shoot.wav))
-- **In Game Sound**. This is the continuous sound that plays as the game is being played. Found in [/sounds/in-game.wav](/sounds/in-game.wav)
-- **Upgrade Sound**. This is the sound that plays whenever the player levels up (gets a chance the mint a new NFT). As there are three possible NFTs to win, there are three upgrade sounds: [/sounds/upgrade1.wav](/sounds/upgrade1.wav)
+([/sounds/shoot.wav](/sounds/shoot.wav)) .
+- **In Game Sound**. This is the continuous sound that plays as the game is being played. Found in [/sounds/in-game.wav](/sounds/in-game.wav) .
 - **Upgrade Sound**. This is the sound that plays whenever the player levels up (gets a chance the mint a new NFT). As there are three possible NFTs to win, there are three upgrade sounds: [/sounds/upgrade1.wav](/sounds/upgrade1.wav),
-[/sounds/upgrade2.wav](/sounds/upgrade2.wav)[/sounds/upgrade3.wav](/sounds/upgrade3.wav)
+[/sounds/upgrade2.wav](/sounds/upgrade2.wav),[/sounds/upgrade3.wav](/sounds/upgrade3.wav)
 
-- **Start Up Sound**. This is sound that plays when the game begins. Found in [/sounds/start.wav](/sounds/start.wav)
+- **Start Up Sound**. This is sound that plays when the game begins. Found in [/sounds/start.wav](/sounds/start.wav) .
 
-2. I added a start button which is click to restart the game when it ends. This makes it clearer what to do to restart the game
+2. I added a start button which is click to restart the game when it ends. This makes it clearer what to do to restart the game.
 
-3. I added feedback when minting an NFT. This way, the user knows an activity is in progress. In the initial application, there's no feedback and the user could even click it a lot of times
+3. I added feedback when minting an NFT. This way, the user knows an activity is in progress. In the initial application, there's no feedback and the user could even click it a lot of times.
 
 ## Bug Fix
 
 In the original application, the `claim` button which was used to `mint` a new NFT did not work.
 
-The method which was recommended by the immutable team only worked in a node environment and could only work in the browser if used with a build step (like in a framework like NextJs). This was not an option since I couldn't rewrite the entire application for that singular reason
+The method which was recommended by the immutable team only worked in a node environment and could only work in the browser if used with a build step (like in a framework like NextJs). This was not an option since I couldn't rewrite the entire application for that singular reason.
 
 After going through the immutable contracts source code (`@imtbl/contracts` which we had used in a node environment). I found that we used class called `ERC721Client` was just a wrapper around the `ethers` contract factory. It implemented some new helpful methods like `populateMint` and `populateMintBatch` which was used a mint NFTs. But this had not special code that call the `mint` function of the `ethers` contract factory
 
@@ -91,11 +90,11 @@ The entire code is found in the `mintNft` function in  [/assets/js/login.js](/as
 
 ## Feature Addition
 
-I added three new features to the game play
+I added three new features to the game play:
 
-1. I added a third NFT minting step which signified the last level. Also, I deployed new contracts with new images
+1. I added a third NFT minting step which signified the last level. Also, I deployed new contracts with new images.
 
-2. I added a new spaceship and bullet at thrid level. Where spaceship shoots three bullets rather than two
+2. I added a new spaceship look and bullet at the third upgrade level. Where spaceship shoots three bullets rather than two.
 
 3. I added an global high score. For every user that beats this high score, the user's address and the new high score is saved to a Redis database via a serverless function on vercel.
 Save and Load Score Code found [Here](https://github.com/Complexlity/immutable-game/blob/main/src/pages/api/scoring.js)
