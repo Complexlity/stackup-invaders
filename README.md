@@ -91,7 +91,7 @@ The entire code is found in the `mintNft` function in  [/assets/js/login.js](/as
 
 ## Feature Addition
 
-I added two new features to the game play
+I added three new features to the game play
 
 1. I added a third NFT minting step which signified the last level. Also, I deployed new contracts with new images
 
