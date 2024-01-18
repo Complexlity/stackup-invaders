@@ -60,7 +60,10 @@ The main sounds category are:
 ([/sounds/shoot.wav](/sounds/shoot.wav)) .
 - **In Game Sound**. This is the continuous sound that plays as the game is being played. Found in [/sounds/in-game.wav](/sounds/in-game.wav) .
 - **Upgrade Sound**. This is the sound that plays whenever the player levels up (gets a chance the mint a new NFT). As there are three possible NFTs to win, there are three upgrade sounds: [/sounds/upgrade1.wav](/sounds/upgrade1.wav),
-[/sounds/upgrade2.wav](/sounds/upgrade2.wav),[/sounds/upgrade3.wav](/sounds/upgrade3.wav)
+
+[/sounds/upgrade2.wav](/sounds/upgrade2.wav),
+
+[/sounds/upgrade3.wav](/sounds/upgrade3.wav)
 
 - **Start Up Sound**. This is sound that plays when the game begins. Found in [/sounds/start.wav](/sounds/start.wav) .
 
