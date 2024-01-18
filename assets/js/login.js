@@ -24,8 +24,8 @@ const config = {
 const client = new window.immutable.blockchainData.BlockchainData(config);
 
 const getUserInfo = async function () {
-  // const highestScoringApi = "https://immutable-game.vercel.app/api/scoring";
-  const highestScoringApi = "http://localhost:3001/api/scoring";
+  const highestScoringApi = "https://immutable-game.vercel.app/api/scoring";
+  // const highestScoringApi = "http://localhost:3001/api/scoring";
   window.highestScoringApi = highestScoringApi
   const [userProfile, {message: highestScoreData}] = await Promise.all([window.passport.getUserInfo(), fetch(highestScoringApi).then(res => res.json())])
   window.userProfile = { ...userProfile, address: window.accounts[0] }
