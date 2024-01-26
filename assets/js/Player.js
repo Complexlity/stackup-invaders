@@ -1,6 +1,6 @@
 const LEVEL_1_SCORE = 100
-const LEVEL_2_SCORE = 150
-const LEVEL_3_SCORE = 200
+const LEVEL_2_SCORE = 400
+const LEVEL_3_SCORE = 1000
 
 
 class Player {
